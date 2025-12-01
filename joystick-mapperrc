@@ -1,0 +1,50 @@
+# device names
+
+input: GREAT PLANES InterLink Elite
+output: My chmap device
+
+# Reminder: output (LHS) namespace is distinct from input (RHS)
+# namespace.
+
+# analog "abs" axis outputs with min:max values in brackets.
+
+a0 [0:255] = a2                    # rearrange first three channels
+ABS_#13 [0:255] = a0
+a2 [0:255] = a1
+a3 [0:255] = 4*a3 - 256            # overrange values work fine
+a4 [0:255] = 255-a4                # invert
+a5 [0:255] = a5                    # no change
+
+# triple-throw-center-off switch shows up as s3/s4.
+
+# convert that into a 3-state (0/128/255) analog channel
+
+a6 [0:255] = 128 + s4*127 - s3*128 
+
+# and to three different keyboard keypresses (d,m,u)
+
+P:KEY_D = s3
+P:KEY_M = not (s3 or s4)
+P:KEY_U = s4
+
+# switch outputs
+
+s0 = not s0
+s1 = s1
+s3 = a3 >= 200   
+
+# InterLink Elite maps 5 three-position rockers (trims and menu
+# up/down) into a single "analog" axis value encoded as a 5-trit
+# ternary number from 00000 to 22222.  So decode that 5 trit value
+# into 10 different switch values:
+
+s4 = (a5 % 3) == 1
+s5 = (a5 % 3) == 2
+s6 = ((a5//3) % 3) == 1
+s7 = ((a5//3) % 3) == 2
+s8  = ((a5//9) % 3) == 1
+s9 = ((a5//9) % 3) == 2
+s10 = ((a5//27) % 3) == 1
+s11 = ((a5//27) % 3) == 2
+s12 = ((a5//81) % 3) == 1
+s13 = ((a5//81) % 3) == 2
