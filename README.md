@@ -4,7 +4,7 @@ Linux application to remap/modify Joystick channels/switches
 
 ## Background
 
-This is a joystick "channel mapper" for linux.  It lets users create a
+This is a joystick "channel mapper" for Linux.  It lets users create a
 virtual "joystick" device that outputs modified values from another
 joystick device.  The standard Linux joystick subsystem along with
 utilities like 'jscal' and 'evdev-joystick' let you do a lot of the
